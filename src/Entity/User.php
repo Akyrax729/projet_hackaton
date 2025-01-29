@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -17,20 +19,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    /**
-     * @var list<string> The user roles
-     */
-    #[ORM\Column]
-    private array $roles = [];
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 50, unique: true)]
+    private ?string $username = null;
+
+    #[ORM\Column(length: 20)]
+    private string $role = 'Joueur';
 
     /**
-     * @var string The hashed password
+     * @var Collection<int, Tournoi>
      */
-    #[ORM\Column]
-    private ?string $password = null;
+    #[ORM\OneToMany(targetEntity: Tournoi::class, mappedBy: 'cree_par')]
+    private Collection $tournois;
+
+    /**
+     * @var Collection<int, Equipe>
+     */
+    #[ORM\OneToMany(targetEntity: Equipe::class, mappedBy: 'cree_par')]
+    private Collection $equipes;
+
+    public function __construct()
+    {
+        $this->tournois = new ArrayCollection();
+        $this->equipes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -45,46 +62,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
+    public function getUsername(): ?string
     {
-        return (string) $this->email;
+        return $this->username;
     }
 
-    /**
-     * @see UserInterface
-     * @return list<string>
-     */
-    public function getRoles(): array
+    public function setUsername(string $username): static
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    /**
-     * @param list<string> $roles
-     */
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
-
+        $this->username = $username;
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): ?string
     {
         return $this->password;
@@ -93,16 +84,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
+        return $this;
+    }
+
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): static
+    {
+        if (!in_array($role, ['Admin', 'Joueur'])) {
+            throw new \InvalidArgumentException("Rôle invalide.");
+        }
+        $this->role = $role;
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return ['ROLE_' . strtoupper($this->role)];
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
+
+   
+    public function getUserIdentifier(): string
+    {
+        return $this->email; 
+    }
+
+    /**
+     * @return Collection<int, Tournoi>
+     */
+    public function getTournois(): Collection
+    {
+        return $this->tournois;
+    }
+
+    public function addTournoi(Tournoi $tournoi): static
+    {
+        if (!$this->tournois->contains($tournoi)) {
+            $this->tournois->add($tournoi);
+            $tournoi->setCreePar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournoi(Tournoi $tournoi): static
+    {
+        if ($this->tournois->removeElement($tournoi)) {
+            // set the owning side to null (unless already changed)
+            if ($tournoi->getCreePar() === $this) {
+                $tournoi->setCreePar(null);
+            }
+        }
 
         return $this;
     }
 
     /**
-     * @see UserInterface
+     * @return Collection<int, Equipe>
      */
-    public function eraseCredentials(): void
+    public function getEquipes(): Collection
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        return $this->equipes;
+    }
+
+    public function addEquipe(Equipe $equipe): static
+    {
+        if (!$this->equipes->contains($equipe)) {
+            $this->equipes->add($equipe);
+            $equipe->setCreePar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipe(Equipe $equipe): static
+    {
+        if ($this->equipes->removeElement($equipe)) {
+            // set the owning side to null (unless already changed)
+            if ($equipe->getCreePar() === $this) {
+                $equipe->setCreePar(null);
+            }
+        }
+
+        return $this;
     }
 }
+
