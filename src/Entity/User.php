@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-<<<<<<< HEAD
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-=======
+
 use Doctrine\DBAL\Types\Types;
->>>>>>> origin/ben
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -56,9 +56,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->equipes = new ArrayCollection();
         $this->roles = [self::ROLE_JOUEUR]; // Par défaut, un utilisateur est un joueur
     }
-
-    #[ORM\Column(length: 255)]
-    private ?string $username = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $resetToken = null;
@@ -182,17 +179,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
-
-        return $this;
-    }
 
     public function getResetToken(): ?string
     {

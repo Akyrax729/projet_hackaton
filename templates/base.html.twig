@@ -11,8 +11,8 @@
                 <nav>
                     <ul>
                         <li><a href=" {{ path('app_home') }} ">Accueil</a></li>
-                        <li><a href="">Tournois</a></li>
-                        <li><a href="">Contact</a></li>
+                        <li><a href="{{ path('app_tournois') }}">Tournois</a></li>
+                        <li><a href="{{ path('app_contact') }}">Contact</a></li>
                         <li><a href=""></a></li>
                         {% if app.user == NULL %}
                             <li><a href=" {{path ('app_login')}} ">Se connecter</a></li>

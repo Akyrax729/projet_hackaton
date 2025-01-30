@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Tournois{% endblock %}
+
+{% block main %}
+    <h1>Tournois disponibles</h1>
+
+    <ul>
+        {% for tournoi in tournois %}
+            <li>
+                <strong>{{ tournoi.nom }}</strong> - {{ tournoi.date|date('d/m/Y') }}
+                <br>
+                Type : {{ tournoi.type }} | Statut : {{ tournoi.statut }}
+            </li>
+        {% else %}
+            <p>Aucun tournoi disponible.</p>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
