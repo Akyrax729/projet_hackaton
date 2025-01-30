@@ -1,2 +1,16 @@
 @use "../abstract/mixins";
 @use "../abstract/variable" as var;
+
+main {
+
+    p {
+        // display: inline;
+        font-size: 32px;
+        text-align: center;   
+    }
+    h1 {
+        text-align: center;
+    }
+
+    
+}

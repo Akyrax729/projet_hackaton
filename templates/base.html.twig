@@ -10,7 +10,7 @@
             {% block header %}
                 <nav>
                     <ul>
-                        <li><a href="">Accueil</a></li>
+                        <li><a href=" {{ path('app_home') }} ">Accueil</a></li>
                         <li><a href="">Tournois</a></li>
                         <li><a href="">Contact</a></li>
                         <li><a href=""></a></li>
@@ -25,16 +25,21 @@
                 </nav>
             {% endblock %}
         </header>
+        <main>
+            {% block main %}
+                  <div>
+                    <p>Bienvenu sur </p>
+                    <h1>UltimateArena.gg</h1>
+                  </div>
 
-        {% block main %}
-        
-        {% endblock %}
+            {% endblock %}
+        </main>
+        <footer>
+            {% block footer %}
 
-        {% block footer %}
-
-        {% endblock %}
-
+            {% endblock %}
+        </footer>
     </body>
-    {# {{ encore_entry_script_tags('app') }} #}
+    {{ encore_entry_script_tags('app') }}
 
 </html>

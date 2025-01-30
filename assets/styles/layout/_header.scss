@@ -1,2 +1,36 @@
 @use "../abstract/mixins";
 @use "../abstract/variable" as var;
+
+header {
+    @include mixins.flex($justify: space-between);
+    background-color: var.$primarycolor;
+    height: 70px;
+
+    nav {
+        ul {
+            @include mixins.flex();
+
+            li {
+                padding: 1rem 1.5rem;
+
+                a {
+                    color: var.$accentcolor;
+                    font-size: 26px;
+                    @include mixins.hover();
+                }
+
+                .login {
+                    color: blue;
+                }
+
+                .register {
+                    color: green
+                }
+
+                .logoff {
+                    color: red;
+                }
+            }
+        }
+    }
+}

@@ -8,7 +8,7 @@
     flex-wrap: $wrap;
 }
 
-@mixin hover ($bgcolor: inherit, $hcolor: var.$accentcolor) {
+@mixin hover ($hcolor: var.$hovercolor, $bgcolor: inherit) {
 
     transition: all 300ms;
     display: block;
@@ -17,5 +17,6 @@
         background-color: $bgcolor;
         color: $hcolor;
         transform: scale(1.1);
+        text-decoration: underline;
     }
 }
