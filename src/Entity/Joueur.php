@@ -15,8 +15,12 @@ class Joueur
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nom = null;
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $username = null;
+
+    #[ORM\OneToOne(targetEntity: User::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     /**
      * @var Collection<int, Equipe>
@@ -34,15 +38,25 @@ class Joueur
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getUsername(): ?string
     {
-        return $this->nom;
+        return $this->username;
     }
 
-    public function setNom(string $nom): static
+    public function setUsername(string $username): static
     {
-        $this->nom = $nom;
+        $this->username = $username;
+        return $this;
+    }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
         return $this;
     }
 
@@ -57,6 +71,9 @@ class Joueur
     public function addEquipe(Equipe $equipe): static
     {
         if (!$this->equipes->contains($equipe)) {
+            if ($equipe->getJoueurs()->count() >= 5) {
+                throw new \Exception("Une équipe ne peut pas avoir plus de 5 joueurs.");
+            }
             $this->equipes->add($equipe);
         }
 
@@ -66,7 +83,6 @@ class Joueur
     public function removeEquipe(Equipe $equipe): static
     {
         $this->equipes->removeElement($equipe);
-
         return $this;
     }
 }

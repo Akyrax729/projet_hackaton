@@ -15,22 +15,29 @@ class Rencontre
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'rencontres')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Tournoi $tournoi = null;
 
-    #[ORM\ManyToOne(inversedBy: 'rencontres')]
+    #[ORM\ManyToOne(inversedBy: 'rencontres1')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Equipe $equipe1 = null;
 
-    #[ORM\ManyToOne(inversedBy: 'rencontres')]
+    #[ORM\ManyToOne(inversedBy: 'rencontres2')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Equipe $equipe2 = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $score1 = null;
+    #[ORM\Column(type: Types::SMALLINT, options: ['default' => 0])]
+    private ?int $score1 = 0;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $score2 = null;
+    #[ORM\Column(type: Types::SMALLINT, options: ['default' => 0])]
+    private ?int $score2 = 0;
+
+    public const STATUS_PENDING = 'En attente';
+    public const STATUS_IN_PROGRESS = 'En cours';
+    public const STATUS_FINISHED = 'Terminé';
 
     #[ORM\Column(length: 255)]
-    private ?string $statut = null;
+    private ?string $statut = self::STATUS_PENDING; // Statut par défaut
 
     public function getId(): ?int
     {
@@ -45,7 +52,6 @@ class Rencontre
     public function setTournoi(?Tournoi $tournoi): static
     {
         $this->tournoi = $tournoi;
-
         return $this;
     }
 
@@ -57,7 +63,6 @@ class Rencontre
     public function setEquipe1(?Equipe $equipe1): static
     {
         $this->equipe1 = $equipe1;
-
         return $this;
     }
 
@@ -69,7 +74,6 @@ class Rencontre
     public function setEquipe2(?Equipe $equipe2): static
     {
         $this->equipe2 = $equipe2;
-
         return $this;
     }
 
@@ -81,7 +85,6 @@ class Rencontre
     public function setScore1(int $score1): static
     {
         $this->score1 = $score1;
-
         return $this;
     }
 
@@ -93,7 +96,6 @@ class Rencontre
     public function setScore2(int $score2): static
     {
         $this->score2 = $score2;
-
         return $this;
     }
 
@@ -104,8 +106,10 @@ class Rencontre
 
     public function setStatut(string $statut): static
     {
+        if (!in_array($statut, [self::STATUS_PENDING, self::STATUS_IN_PROGRESS, self::STATUS_FINISHED])) {
+            throw new \InvalidArgumentException("Statut invalide");
+        }
         $this->statut = $statut;
-
         return $this;
     }
 }

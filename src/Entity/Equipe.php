@@ -19,9 +19,11 @@ class Equipe
     private ?string $nom = null;
 
     #[ORM\ManyToOne(inversedBy: 'equipes')]
-    private ?tournoi $tournoi = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Tournoi $tournoi = null;
 
     #[ORM\ManyToOne(inversedBy: 'equipes')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $cree_par = null;
 
     /**
@@ -33,7 +35,7 @@ class Equipe
     /**
      * @var Collection<int, Rencontre>
      */
-    #[ORM\OneToMany(targetEntity: Rencontre::class, mappedBy: 'equipe1')]
+    #[ORM\OneToMany(targetEntity: Rencontre::class, mappedBy: 'equipe1', cascade: ['persist', 'remove'])]
     private Collection $rencontres;
 
     public function __construct()
@@ -55,19 +57,17 @@ class Equipe
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
-    public function getTournoi(): ?tournoi
+    public function getTournoi(): ?Tournoi
     {
         return $this->tournoi;
     }
 
-    public function setTournoi(?tournoi $tournoi): static
+    public function setTournoi(?Tournoi $tournoi): static
     {
         $this->tournoi = $tournoi;
-
         return $this;
     }
 
@@ -79,7 +79,6 @@ class Equipe
     public function setCreePar(?User $cree_par): static
     {
         $this->cree_par = $cree_par;
-
         return $this;
     }
 
@@ -97,7 +96,6 @@ class Equipe
             $this->joueurs->add($joueur);
             $joueur->addEquipe($this);
         }
-
         return $this;
     }
 
@@ -106,7 +104,6 @@ class Equipe
         if ($this->joueurs->removeElement($joueur)) {
             $joueur->removeEquipe($this);
         }
-
         return $this;
     }
 
@@ -124,19 +121,16 @@ class Equipe
             $this->rencontres->add($rencontre);
             $rencontre->setEquipe1($this);
         }
-
         return $this;
     }
 
     public function removeRencontre(Rencontre $rencontre): static
     {
         if ($this->rencontres->removeElement($rencontre)) {
-            // set the owning side to null (unless already changed)
             if ($rencontre->getEquipe1() === $this) {
                 $rencontre->setEquipe1(null);
             }
         }
-
         return $this;
     }
 }

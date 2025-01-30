@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Constant\TournoiStatut;
+use App\Constant\TournoiType;
 use App\Repository\TournoiRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -50,6 +52,7 @@ class Tournoi
     {
         $this->equipes = new ArrayCollection();
         $this->rencontres = new ArrayCollection();
+        $this->created_at = new \DateTimeImmutable(); // Définit la date de création automatiquement
     }
 
     public function getId(): ?int
@@ -65,7 +68,6 @@ class Tournoi
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -77,7 +79,6 @@ class Tournoi
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -88,8 +89,10 @@ class Tournoi
 
     public function setType(string $type): static
     {
+        if (!in_array($type, TournoiType::getTypes(), true)) {
+            throw new \InvalidArgumentException("Type de tournoi invalide.");
+        }
         $this->type = $type;
-
         return $this;
     }
 
@@ -100,8 +103,10 @@ class Tournoi
 
     public function setStatut(string $statut): static
     {
+        if (!in_array($statut, TournoiStatut::getStatuts(), true)) {
+            throw new \InvalidArgumentException("Statut invalide pour un tournoi.");
+        }
         $this->statut = $statut;
-
         return $this;
     }
 
@@ -113,20 +118,12 @@ class Tournoi
     public function setCreePar(?User $cree_par): static
     {
         $this->cree_par = $cree_par;
-
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
     }
 
     /**
@@ -143,19 +140,16 @@ class Tournoi
             $this->equipes->add($equipe);
             $equipe->setTournoi($this);
         }
-
         return $this;
     }
 
     public function removeEquipe(Equipe $equipe): static
     {
         if ($this->equipes->removeElement($equipe)) {
-            // set the owning side to null (unless already changed)
             if ($equipe->getTournoi() === $this) {
                 $equipe->setTournoi(null);
             }
         }
-
         return $this;
     }
 
@@ -173,19 +167,16 @@ class Tournoi
             $this->rencontres->add($rencontre);
             $rencontre->setTournoi($this);
         }
-
         return $this;
     }
 
     public function removeRencontre(Rencontre $rencontre): static
     {
         if ($this->rencontres->removeElement($rencontre)) {
-            // set the owning side to null (unless already changed)
             if ($rencontre->getTournoi() === $this) {
                 $rencontre->setTournoi(null);
             }
         }
-
         return $this;
     }
 }
