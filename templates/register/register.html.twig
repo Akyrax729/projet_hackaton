@@ -3,8 +3,11 @@
 {% block title %}S'enregistrer{% endblock %}
 
 {% block main %}
-    {{form_start(registerform)}}
-        {{form_widget(registerform)}}
-        <button>S'enregistrer</button>
-    {{form_end(registerform)}}
+    <section id="form">
+        {{form_start(registerform)}}
+            <h2>Inscription</h2>
+            {{form_widget(registerform)}}
+            <button>S'enregistrer</button>
+        {{form_end(registerform)}}
+    </section>
 {% endblock %}

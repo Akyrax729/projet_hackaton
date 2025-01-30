@@ -3,6 +3,7 @@
 {% block title %}Log in!{% endblock %}
 
 {% block main %}
+<section id="form" class="loginform">
     <form method="post">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -14,7 +15,7 @@
             </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Connectez-vous</h1>
+        <h2 class="h3 mb-3 font-weight-normal">Connectez-vous</h2>
         <label for="username">Email</label>
         <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
         <label for="password">Password</label>
@@ -37,6 +38,8 @@
         <button class="btn btn-lg btn-primary" type="submit">
             Sign in
         </button>
+        <a class="lostpassword" href="{{path ('app_reset_password_request')}}">Mot de passe oublié ?</a>
     </form>
-    <a href="{{path ('app_reset_password_request')}}">Mot de passe oublié ?</a>
+</section>
+    
 {% endblock %}

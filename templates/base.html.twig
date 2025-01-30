@@ -8,6 +8,7 @@
     <body>
         <header>
             {% block header %}
+            <img src="{{ asset('img/logogame.webp') }}" alt="Logo">
                 <nav>
                     <ul>
                         <li><a href=" {{ path('app_home') }} ">Accueil</a></li>
@@ -15,11 +16,11 @@
                         <li><a href="{{ path('app_contact') }}">Contact</a></li>
                         <li><a href=""></a></li>
                         {% if app.user == NULL %}
-                            <li><a href=" {{path ('app_login')}} ">Se connecter</a></li>
-                            <li><a href=" {{path ('app_register')}} ">S'enregistrer</a></li>
+                            <li><a class="login" href=" {{path ('app_login')}} ">Se connecter</a></li>
+                            <li><a class="register" href=" {{path ('app_register')}} ">S'enregistrer</a></li>
                         {% endif %}
                         {% if app.user != NULL %}
-                            <li><a href=" {{path ('app_logout')}} ">Se déconnecter</a></li>
+                            <li><a class="logoff" href=" {{path ('app_logout')}} ">Se déconnecter</a></li>
                         {% endif %}
                     </ul>
                 </nav>
@@ -27,11 +28,7 @@
         </header>
         <main>
             {% block main %}
-                  <div>
-                    <p>Bienvenu sur </p>
-                    <h1>UltimateArena.gg</h1>
-                  </div>
-
+                
             {% endblock %}
         </main>
         <footer>

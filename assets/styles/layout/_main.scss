@@ -3,14 +3,70 @@
 
 main {
 
-    p {
-        // display: inline;
-        font-size: 32px;
-        text-align: center;   
+    div {
+        @include mixins.flex();
+        margin-top: 2rem;
+
+        p {
+            // display: inline;
+            font-size: 48px;
+            text-align: center;   
+        }
+        h1 {
+            font-size: 48px;
+            margin-left: 1rem;
+            text-align: center;
+        }
     }
-    h1 {
-        text-align: center;
+
+    // formulaires
+
+    #form {
+        @include mixins.flex();
+        margin-top: 2rem;
+
+        form {
+            @include mixins.flex(column);
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 30%;
+
+            h2 {
+                margin-top: 2rem;
+                margin-bottom: -1rem;
+                color: var.$accentcolor;
+            }
+
+            div {
+                @include mixins.flex(column);
+
+                input {
+                    width: 300px;
+                }
+
+                #contact_message {
+                    height: 150px;
+                }
+            }
+
+            button {
+                margin: 2rem 0;
+            }
+        }
+
+        
+
+        .lostpassword {
+            color: red;
+            margin-bottom: 1rem;
+        }
     }
 
     
+}
+
+.loginform {
+    label {
+        margin-top: 2rem;
+    }
 }
