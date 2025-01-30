@@ -14,6 +14,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_JOUEUR = 'ROLE_JOUEUR';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -28,8 +31,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50, unique: true)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 20)]
-    private string $role = 'Joueur';
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
 
     /**
      * @var Collection<int, Tournoi>
@@ -47,6 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->tournois = new ArrayCollection();
         $this->equipes = new ArrayCollection();
+        $this->roles = [self::ROLE_JOUEUR]; // Par défaut, un utilisateur est un joueur
     }
 
     public function getId(): ?int
@@ -87,30 +91,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRole(): string
-    {
-        return $this->role;
-    }
-
-    public function setRole(string $role): static
-    {
-        if (!in_array($role, ['Admin', 'Joueur'])) {
-            throw new \InvalidArgumentException("Rôle invalide.");
-        }
-        $this->role = $role;
-        return $this;
-    }
-
     public function getRoles(): array
     {
-        return ['ROLE_' . strtoupper($this->role)];
+        $roles = $this->roles;
+        // Ajoute toujours ROLE_USER pour Symfony Security
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+        return $this;
     }
 
     public function eraseCredentials(): void
     {
+        // Si tu stockes des données sensibles temporairement, nettoie-les ici.
     }
 
-   
     public function getUserIdentifier(): string
     {
         return $this->email; 
@@ -130,19 +129,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->tournois->add($tournoi);
             $tournoi->setCreePar($this);
         }
-
         return $this;
     }
 
     public function removeTournoi(Tournoi $tournoi): static
     {
         if ($this->tournois->removeElement($tournoi)) {
-            // set the owning side to null (unless already changed)
             if ($tournoi->getCreePar() === $this) {
                 $tournoi->setCreePar(null);
             }
         }
-
         return $this;
     }
 
@@ -160,20 +156,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->equipes->add($equipe);
             $equipe->setCreePar($this);
         }
-
         return $this;
     }
 
     public function removeEquipe(Equipe $equipe): static
     {
         if ($this->equipes->removeElement($equipe)) {
-            // set the owning side to null (unless already changed)
             if ($equipe->getCreePar() === $this) {
                 $equipe->setCreePar(null);
             }
         }
-
         return $this;
     }
 }
-
