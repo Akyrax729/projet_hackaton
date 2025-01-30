@@ -1,0 +1,14 @@
+@use "../abstract/variable" as var;
+
+body {
+    background-color: var.$backgroundcolor;
+    color: var.$secondarycolor;
+
+    h1 {
+        text-shadow: 0 0 5px black;
+        display: inline;
+        font-size: 32px;
+        color: var.$accentcolor;
+    }
+}
+

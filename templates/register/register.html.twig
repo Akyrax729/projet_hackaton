@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'enregistrer{% endblock %}
+
+{% block main %}
+    {{form_start(registerform)}}
+        {{form_widget(registerform)}}
+        <button>S'enregistrer</button>
+    {{form_end(registerform)}}
+{% endblock %}
