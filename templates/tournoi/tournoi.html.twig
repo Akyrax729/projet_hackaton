@@ -3,18 +3,30 @@
 {% block title %}Liste des Tournois{% endblock %}
 
 {% block main %}
-    <h1>Tournois disponibles</h1>
+    <h1>Tournois disponibles <a href="{{ path('app_tournoi_create') }}" class="btn btn-primary">Créer un tournoi</a></h1>
 
-    <ul>
-        {% for tournoi in tournois %}
-            <li>
-                <strong>{{ tournoi.nom }}</strong> - {{ tournoi.date|date('d/m/Y') }}
-                <br>
-                Type : {{ tournoi.type }} | Statut : {{ tournoi.statut }}
-            </li>
-        {% else %}
-            <p>Aucun tournoi disponible.</p>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for tournoi in tournois %}
+        <li>
+            <strong>{{ tournoi.nom }}</strong> - {{ tournoi.date|date("d/m/Y") }}
+            <br>
+            Type : {{ tournoi.type }} | Statut : {{ tournoi.statut }}
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <!-- Bouton Modifier -->
+                <a href="{{ path('app_tournoi_edit', {id: tournoi.id}) }}" class="btn btn-warning">Modifier</a>
+
+                <!-- Bouton Supprimer -->
+                <form action="{{ path('app_tournoi_delete', {id: tournoi.id}) }}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tournoi.id) }}">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Confirmer la suppression ?')">Supprimer</button>
+                </form>
+            {% endif %}
+        </li>
+    {% else %}
+        <p>Aucun tournoi disponible.</p>
+    {% endfor %}
+</ul>
 
 {% endblock %}

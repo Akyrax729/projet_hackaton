@@ -125,6 +125,14 @@ class Tournoi
     {
         return $this->created_at;
     }
+    
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
+    {
+        $this->created_at = $createdAt;
+        return $this;
+    }
+
+    
 
     /**
      * @return Collection<int, Equipe>
