@@ -207,4 +207,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->resetTokenExpiresAt && $this->resetTokenExpiresAt > new \DateTime();
     }
+
+    public function getRole(): string
+    {
+        return $this->roles[0] ?? 'Joueur';
+    }
+
 }

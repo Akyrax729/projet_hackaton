@@ -14,13 +14,18 @@
                         <li><a href="{{ path('app_tournois') }}">Tournois</a></li>
                         <li><a href="{{ path('app_contact') }}">Contact</a></li>
                         <li><a href=""></a></li>
-                        {% if app.user == NULL %}
-                            <li><a href=" {{path ('app_login')}} ">Se connecter</a></li>
-                            <li><a href=" {{path ('app_register')}} ">S'enregistrer</a></li>
+                        {% if app.user %}
+
+                        <li><a href="{{ path('app_profil') }}">Mon Profil</a></li>
+                        {% else %}
+
+                        <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+                        <li><a href="{{ path('app_register') }}">S'enregistrer</a></li>
                         {% endif %}
-                        {% if app.user != NULL %}
-                            <li><a href=" {{path ('app_logout')}} ">Se déconnecter</a></li>
-                        {% endif %}
+                        
+                        {% if app.user %}
+                        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                    {% endif %}
                     </ul>
                 </nav>
             {% endblock %}
