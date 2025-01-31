@@ -1,2 +1,44 @@
 @use "../abstract/mixins";
 @use "../abstract/variable" as var;
+
+footer {
+    @include mixins.flex($justify: space-between);
+    background-color: var.$primarycolor;
+    height: 70px;
+    padding: 0 5%;
+
+    .logo {
+        height: 70px;
+        img {
+            width: 70px;
+        }
+    }
+
+    ul {
+        @include mixins.flex();
+
+        li {
+            padding: 1rem 1.5rem;
+
+            a {
+                color: var.$accentcolor;
+                font-size: 26px;
+                @include mixins.hover();
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    footer {
+        ul {
+            li {    
+                padding: 0.5rem 1rem;
+
+                a {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
