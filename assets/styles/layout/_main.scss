@@ -2,15 +2,118 @@
 @use "../abstract/variable" as var;
 
 main {
+    min-height: 750px;
 
-    p {
-        // display: inline;
-        font-size: 32px;
-        text-align: center;   
-    }
     h1 {
+        font-size: 48px;
         text-align: center;
+        display: block;
+        margin-bottom: 1rem;
     }
 
-    
+   #index {
+        div {
+            @include mixins.flex();
+            margin-top: 2rem;
+
+            p {
+                // display: inline;
+                font-size: 48px;
+                text-align: center;   
+                margin-right: 1rem;
+            }
+
+            h1 {
+                margin-bottom: -0.4rem;
+            }
+        }
+   }
+
+    // formulaires
+
+    #form {
+        @include mixins.flex();
+        margin-top: 2rem;
+
+        form {
+            @include mixins.flex(column);
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 300px;
+
+            h2 {
+                margin-top: 2rem;
+                margin-bottom: -1rem;
+                color: var.$accentcolor;
+            }
+
+            label {
+                margin-top: 2rem;
+            }
+
+            div {
+                @include mixins.flex(column);
+
+                input {
+                    width: 150px;
+                    padding: 0.1rem;
+                }
+
+                #contact_message {
+                    height: 150px;
+                    width: 200px;
+                    padding: 3px;
+                }
+
+                
+            }
+            }
+
+            button {
+                @include mixins.hover($bgcolor: var.$backgroundcolor);
+                margin: 2rem 0;
+                padding: 0.3rem 1rem;
+                border-radius: 20px;
+                color: var.$accentcolor;
+                background-color: var.$primarycolor;
+            }
+        }
+
+        
+
+        .lostpassword {
+            @include mixins.hover();
+            color: red;
+            margin-bottom: 1rem;
+        }
+
+    // TOURNOI
+
+    ul{
+        @include mixins.flex(column, $wrap: wrap);
+
+        li {
+            @include mixins.flex(column);
+        }
+    }
+}
+
+
+
+// RESPONSIVE
+
+@media screen and (max-width: 1024px) {
+    main {
+        // min-height: 600px;
+        #index {
+            div {
+                p {
+                    font-size: 38px;
+                }
+                h1 {
+                    font-size: 38px;
+                }
+            }
+        }
+    }
 }

@@ -5,6 +5,11 @@ header {
     @include mixins.flex($justify: space-between);
     background-color: var.$primarycolor;
     height: 70px;
+    padding: 0 5%;
+
+    img {
+        width: 70px;
+    }
 
     nav {
         ul {
@@ -20,17 +25,32 @@ header {
                 }
 
                 .login {
-                    color: blue;
+                    color: rgb(83, 104, 187);
                 }
 
                 .register {
-                    color: green
+                    color: rgb(121, 174, 41)
                 }
 
                 .logoff {
-                    color: red;
+                    color: rgb(255, 0, 0);
                 }
             }
         }
     }
+}
+
+@media screen and (max-width: 1024px) {
+   header {
+        nav {
+            ul {
+                li {
+                    padding: 0.5rem 1rem;
+                    a {
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+   }
 }

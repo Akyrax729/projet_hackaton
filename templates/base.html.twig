@@ -6,8 +6,12 @@
         {{ encore_entry_link_tags('app') }}
     </head>
     <body>
+
+    {# HEADER #}
+
         <header>
             {% block header %}
+            <img src="{{ asset('img/logogame.webp') }}" alt="Logo">
                 <nav>
                     <ul>
                         <li><a href=" {{ path('app_home') }} ">Accueil</a></li>
@@ -30,18 +34,34 @@
                 </nav>
             {% endblock %}
         </header>
+
+        {# MAIN #}
+
         <main>
             {% block main %}
-                  <div>
-                    <p>Bienvenu sur </p>
-                    <h1>UltimateArena.gg</h1>
-                  </div>
-
+                
             {% endblock %}
         </main>
+
+        {# FOOTER #}
+
         <footer>
             {% block footer %}
-
+                <a class="logo" href="{{ path('app_home') }}"><img src="{{ asset('img/logogame.webp') }}" alt="Logo"></a>
+                <ul>
+                    <li>
+                        <a href="{{ path('app_contact') }}"><h3>Nous Contactez</h3></a>
+                    </li>
+                    <li>
+                        <ul>
+                            <li><a href=""><i class="fa-brands fa-x-twitter"></i></a></li>
+                            <li><a href=""><i class="fa-brands fa-youtube"></i></a></li>
+                            <li><a href=""><i class="fa-brands fa-tiktok"></i></a></li>
+                            <li><a href=""><i class="fa-brands fa-discord"></i></a></li>
+                            <li><a href=""><i class="fa-brands fa-instagram"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
             {% endblock %}
         </footer>
     </body>
