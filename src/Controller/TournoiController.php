@@ -26,13 +26,13 @@ class TournoiController extends AbstractController
     #[Route('/tournoi/create', name: 'app_tournoi_create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Vérification si l'utilisateur est admin
+        
         if (!$this->isGranted('ROLE_ADMIN')) {
             $this->addFlash('error', 'Accès refusé. Seuls les admins peuvent créer un tournoi.');
             return $this->redirectToRoute('app_tournois');
         }
 
-        // Création d'un nouvel objet Tournoi
+        
         $tournoi = new Tournoi();
         $form = $this->createForm(TournoiType::class, $tournoi);
 

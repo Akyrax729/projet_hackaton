@@ -11,7 +11,7 @@
 
         <header>
             {% block header %}
-            <img src="{{ asset('img/logogame.webp') }}" alt="Logo">
+            <a class="logo" href="{{ path('app_home') }}"><img src="{{ asset('img/logogame.webp') }}" alt="Logo"></a>
                 <nav>
                     <ul>
                         <li><a href=" {{ path('app_home') }} ">Accueil</a></li>
@@ -21,15 +21,16 @@
                         {% if app.user %}
 
                         <li><a href="{{ path('app_profil') }}">Mon Profil</a></li>
+                        <li><a class="logoff" href="{{ path('app_logout') }}">Se déconnecter</a></li>
+
                         {% else %}
 
-                        <li><a href="{{ path('app_login') }}">Se connecter</a></li>
-                        <li><a href="{{ path('app_register') }}">S'enregistrer</a></li>
+                        <li><a class="login" href="{{ path('app_login') }}">Se connecter</a></li>
+                        <li><a class="register" href="{{ path('app_register') }}">S'enregistrer</a></li>
                         {% endif %}
                         
-                        {% if app.user %}
-                        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
-                    {% endif %}
+                        
+                    
                     </ul>
                 </nav>
             {% endblock %}

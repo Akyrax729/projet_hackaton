@@ -5,46 +5,47 @@
 {% block main %}
 <main>
     <h1>Mon Profil</h1>
+    <div class="profil">
+        <section class="profil-info">
+            <h2>Informations</h2>
+            <p><strong>Nom d'utilisateur :</strong> {{ user.username }}</p>
+            <p><strong>Email :</strong> {{ user.email }}</p>
+            <p><strong>Rôle :</strong> 
+                {% if 'ROLE_ADMIN' in user.roles %}
+                    Admin
+                {% else %}
+                    Joueur
+                {% endif %}
+            </p>
 
-    <section class="profil-info">
-        <h2>Informations</h2>
-        <p><strong>Nom d'utilisateur :</strong> {{ user.username }}</p>
-        <p><strong>Email :</strong> {{ user.email }}</p>
-        <p><strong>Rôle :</strong> 
-            {% if 'ROLE_ADMIN' in user.roles %}
-                Admin
+        </section>
+    
+        <section class="tournois">
+            <h2>Mes Tournois</h2>
+            {% if tournois %}
+                <ul>
+                    {% for tournoi in tournois %}
+                        <li>{{ tournoi.nom }} - Date : {{ tournoi.date|date("d/m/Y") }}</li>
+                    {% endfor %}
+                </ul>
             {% else %}
-                Joueur
+                <p>Aucun tournoi créé.</p>
             {% endif %}
-        </p>
+        </section>
 
-    </section>
-
-    <section class="tournois">
-        <h2>Mes Tournois</h2>
-        {% if tournois %}
-            <ul>
-                {% for tournoi in tournois %}
-                    <li>{{ tournoi.nom }} - Date : {{ tournoi.date|date("d/m/Y") }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Aucun tournoi créé.</p>
-        {% endif %}
-    </section>
-
-    <section class="equipes">
-        <h2>Mes Équipes</h2>
-        {% if equipes %}
-            <ul>
-                {% for equipe in equipes %}
-                    <li>{{ equipe.nom }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Aucune équipe créée.</p>
-        {% endif %}
-    </section>
+        <section class="equipes">
+            <h2>Mes Équipes</h2>
+            {% if equipes %}
+                <ul>
+                    {% for equipe in equipes %}
+                        <li>{{ equipe.nom }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Aucune équipe créée.</p>
+            {% endif %}
+        </section>
+    </div>
 </main>
 {% endblock %}
 

@@ -3,8 +3,10 @@
 {% block title %}Créer un Tournoi{% endblock %}
 
 {% block main %}
-    <h1>Créer un Tournoi</h1>
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-    {{ form_end(form) }}
+<h1>Créer un Tournoi</h1>
+    <section id="form">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </section>
 {% endblock %}

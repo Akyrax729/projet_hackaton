@@ -3,7 +3,10 @@
 {% block title %}Liste des Tournois{% endblock %}
 
 {% block main %}
-    <h1>Tournois disponibles <a href="{{ path('app_tournoi_create') }}" class="btn btn-primary">Créer un tournoi</a></h1>
+    <h1>Tournois disponibles </h1>
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('app_tournoi_create') }}" class="btn btn-primary">Créer un tournoi</a>
+    {% endif %}
 
 <ul>
     {% for tournoi in tournois %}

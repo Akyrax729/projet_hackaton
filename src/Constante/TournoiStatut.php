@@ -4,9 +4,9 @@ namespace App\Constant;
 
 class TournoiStatut
 {
-    public const EN_COURS = 'en_cours';
-    public const TERMINE = 'termine';
-    public const ANNULE = 'annule';
+    public const EN_COURS = 'En cours';
+    public const TERMINE = 'Terminé';
+    public const ANNULE = 'Annulé';
 
     public static function getStatuts(): array
     {

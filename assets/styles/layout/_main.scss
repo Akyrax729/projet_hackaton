@@ -69,16 +69,24 @@ main {
             }
             }
 
-            button {
-                @include mixins.hover($bgcolor: var.$backgroundcolor);
-                margin: 2rem 0;
-                padding: 0.3rem 1rem;
-                border-radius: 20px;
-                color: var.$accentcolor;
-                background-color: var.$primarycolor;
-            }
+
+           
         }
 
+        button {
+            @include mixins.hover($bgcolor: var.$backgroundcolor);
+            margin: 2rem 0;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            color: var.$accentcolor;
+            background-color: var.$primarycolor;
+            cursor: pointer;
+        }
+        
+        a {
+            color: rgb(83, 104, 187);
+            @include mixins.hover();
+        }
         
 
         .lostpassword {
@@ -94,6 +102,27 @@ main {
 
         li {
             @include mixins.flex(column);
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 300px;
+            padding: 50px
+        }
+    }
+    
+    // PROFIL
+
+    .profil {
+        @include mixins.flex(column);
+        
+        
+        section {
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 150px;
+            padding: 50px;
+            margin-bottom: 2rem;
+
         }
     }
 }
@@ -117,3 +146,4 @@ main {
         }
     }
 }
+
